@@ -1,69 +1,65 @@
 import 'package:flutter/material.dart';
 
-void main(){
-  runApp(ContentWidget());
+void main () => runApp(MaterialApp(
+  title: 'hello world',
+  home: Scaffold(
+    appBar: AppBar(
+      title: Text('flutter App'),
+    ),
+    body: InputChange(),
+  ),
+));
+
+
+
+
+class InputChange extends StatefulWidget {
+  InputChange({Key key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState(){
+      return InputChangeState();
+  }
 }
 
-class ContentWidget extends StatefulWidget {
-  ContentWidget(){
-        print('第一');
-  }
- @override
-  State<StatefulWidget> createState() {
-    print('第二');
-    return ContentWidgetState();
-  }
-}
-
-class ContentWidgetState extends State<ContentWidget> {
-  int count = 0;
-  ContentWidgetState(){
-    print('第三');
-  }
+class InputChangeState extends State<InputChange> {
+  final textEditingController = TextEditingController();
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    print('第四');
+    textEditingController.text='我是默认值';
+    textEditingController.addListener((){
+      print('监听到的值的改变${textEditingController.text}');
+    });
   }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    print('第五');
-  }
-
-  @override
-  void didUpdateWidget(ContentWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('第六');
-  }
-
   @override
   Widget build(BuildContext context) {
-    print('第七');
-    return MaterialApp(
-      title: 'gaoxin',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('你好'),
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              RaisedButton(
-                onPressed: (){
-                     setState(() {
-                       count++;
-                     });
-                },
-                child: Text('数字+'),
-              ),
-              Text('数字:$count')
-            ],
-          ),
-        ),
-      ),
-    );
+    return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                     decoration: InputDecoration(
+                       icon: Icon(Icons.people),
+                       hintText: '请输入用户名',
+                       border: OutlineInputBorder(borderSide: BorderSide(
+                         width: 3,
+                         color: Colors.red
+                       )),
+                     ),
+                     onChanged: (value){
+                         print('$value');
+                     },
+                     onSubmitted: (value){
+                         print('$value');
+                     },
+                     controller: textEditingController
+                  ),
+                ),
+              ],
+            )
+          );
   }
 }
