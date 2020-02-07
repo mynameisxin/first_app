@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-<<<<<<< HEAD
 void main () => runApp(MaterialApp(
   title: 'hello world',
   home: Scaffold(
@@ -63,10 +62,4 @@ class InputChangeState extends State<InputChange> {
             )
           );
   }
-=======
-void main(){
-  runApp(Center(
-    child:  Text('你好',textDirection:TextDirection.ltr,style: TextStyle(color: Colors.green,fontSize: 20.0),)
-  ));
->>>>>>> f5273940b25719ed23c152db441962ec0775a5f5
 }
