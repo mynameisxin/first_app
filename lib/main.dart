@@ -6,60 +6,87 @@ void main () => runApp(MaterialApp(
     appBar: AppBar(
       title: Text('flutter App'),
     ),
-    body: InputChange(),
+    body: Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: FormValue(),
+    ),
   ),
 ));
 
 
 
+class FormValue extends StatefulWidget {
+  FormValue({Key key}) : super(key: key);
 
-class InputChange extends StatefulWidget {
-  InputChange({Key key}) : super(key: key);
-  @override
-  State<StatefulWidget> createState(){
-      return InputChangeState();
+  State<StatefulWidget> createState() {
+    return FormValueState();
   }
 }
 
-class InputChangeState extends State<InputChange> {
-  final textEditingController = TextEditingController();
+class FormValueState extends State<FormValue> {
+  String userName;
+  String possworld;
+
+  final registerFormKey = GlobalKey<FormState>();
+
 
   @override
-  void initState() {
-    super.initState();
-    textEditingController.text='我是默认值';
-    textEditingController.addListener((){
-      print('监听到的值的改变${textEditingController.text}');
-    });
-  }
-  @override
   Widget build(BuildContext context) {
-    return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                     decoration: InputDecoration(
-                       icon: Icon(Icons.people),
-                       hintText: '请输入用户名',
-                       border: OutlineInputBorder(borderSide: BorderSide(
-                         width: 3,
-                         color: Colors.red
-                       )),
-                     ),
-                     onChanged: (value){
-                         print('$value');
-                     },
-                     onSubmitted: (value){
-                         print('$value');
-                     },
-                     controller: textEditingController
-                  ),
+    return Container(
+       child: Form(
+         key: registerFormKey,
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.center,
+           children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.people),
+                  labelText: '用户名'
                 ),
-              ],
-            )
-          );
+                onSaved: (value){
+                   this.userName = value;
+                },
+                validator: (value){
+                  if(value == null || value.length == 0){
+                    return '请输入用户名';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                obscureText:true,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.lock),
+                  labelText: '密码'
+                ),
+                onSaved: (value){
+                   this.possworld = value;
+                },
+                validator: (value){
+                  if(value == null || value.length == 0){
+                    return '请输入密码';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10.0,),
+              Container(
+                width: double.infinity,
+                color: Colors.orange,
+                height: 50.0,
+                child: RaisedButton(
+                  color: Colors.orange,
+                  child: Text('注册',style: TextStyle(fontSize: 20.0,color: Colors.white),),
+                  onPressed: (){
+                    registerFormKey.currentState.save();
+                    registerFormKey.currentState.validate();
+                    print('$userName $possworld');
+                  },
+                ),
+              )
+           ],
+         ),
+       ),
+    );
   }
 }
