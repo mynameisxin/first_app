@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:first_app/components/tapbar_item.dart';
+import 'package:first_app/views/group/group.dart';
+import 'package:first_app/views/home/home.dart';
+import 'package:first_app/views/mall/mall.dart';
+import 'package:first_app/views/profile/profile.dart';
+import 'package:first_app/views/subject/subject.dart';
 
 void main () => runApp(MaterialApp(
   title: 'hello world',
@@ -25,23 +31,18 @@ class FormValueState extends State<FormValue> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: Text('flutter App'),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
       iconSize: 36,
       selectedFontSize: 24,
       unselectedFontSize: 20,
       currentIndex: _count,
+      type: BottomNavigationBarType.fixed,
       items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text('首页')
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.pages),
-          title: Text('详情')
-        )
+       TapBarItem('assets/images/1.jpg','assets/images/2.jpg','首页'),
+       TapBarItem('assets/images/1.jpg','assets/images/2.jpg','书影音'),
+       TapBarItem('assets/images/1.jpg','assets/images/2.jpg','小组'),
+       TapBarItem('assets/images/1.jpg','assets/images/2.jpg','市集'),
+       TapBarItem('assets/images/1.jpg','assets/images/2.jpg','我的'),
       ],
       onTap: (int value){
         setState(() {
@@ -49,10 +50,16 @@ class FormValueState extends State<FormValue> {
         });
       },
     ),
-    body: Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Text('2222')
-    ),
+    body: IndexedStack(
+      index:_count ,
+      children: <Widget>[
+         Home(),
+         Subject(),
+         Group(),
+         Profile(),
+         Mall()
+      ],
+    )
   );
   }
 }
